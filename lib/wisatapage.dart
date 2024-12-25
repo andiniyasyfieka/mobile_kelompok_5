@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karang_aqua_palette/ticket.dart';
+import 'package:karang_aqua_palette/transaksi_page.dart';
 
 class WisataPage extends StatefulWidget {
   const WisataPage({super.key});
@@ -22,18 +23,6 @@ class _WisataPageState extends State<WisataPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Ticket()),
-      );
-    } else if (index == 0) {
-      // Navigasi kembali ke halaman Wisata
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const WisataPage()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Halaman belum tersedia."),
-        ),
       );
     }
   }
@@ -279,11 +268,11 @@ class _WisataPageState extends State<WisataPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              "${wahana["title"]} ditambahkan ke keranjang!"),
-                        ),
+                      // Navigasi ke halaman Riwayat setelah menekan tombol bayar
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TransaksiPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:karang_aqua_palette/splashscreen.dart';
 // ignore: unused_import
 import 'package:karang_aqua_palette/ticket.dart';
+import 'package:karang_aqua_palette/transaksi_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Ticket(),
+      home: const TransaksiPage(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:karang_aqua_palette/transaksi_page.dart';
 import 'package:karang_aqua_palette/wisatapage.dart';
 
 class Ticket extends StatefulWidget {
@@ -10,6 +11,7 @@ class Ticket extends StatefulWidget {
 
 class _TicketState extends State<Ticket> {
   int _currentIndex = 1; // Menyimpan indeks navigasi bawah yang dipilih
+  int selectedPrice = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,7 +33,8 @@ class _TicketState extends State<Ticket> {
           child: Column(
             children: [
               _buildHeader(), // Bagian header
-              const SizedBox(height: 20), // Konten berdasarkan tab yang dipilih
+              const SizedBox(height: 20),
+              _buildTicketSection(), // Bagian konten tiket
             ],
           ),
         ),
@@ -110,7 +113,119 @@ class _TicketState extends State<Ticket> {
     );
   }
 
-  // Widget BottomNavigationBar dengan gradasi
+  // Bagian konten tiket
+  Widget _buildTicketSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: [
+          _buildTicketCard(
+            title: 'Tiket Masuk',
+            subtitle: 'Weekday',
+            price: 'Rp. 15.000 /Orang',
+            buttonText: 'Buy',
+            priceValue: 15000, // Tambahkan harga value untuk Weekday
+          ),
+          const SizedBox(height: 16),
+          _buildTicketCard(
+            title: 'Tiket Masuk',
+            subtitle: 'Weekend',
+            price: 'Rp. 20.000 /Orang',
+            buttonText: 'Buy',
+            priceValue: 20000, // Tambahkan harga value untuk Weekend
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTicketCard({
+    required String title,
+    required String subtitle,
+    required String price,
+    required String buttonText,
+    required int priceValue,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        color: Colors.white,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.confirmation_num_outlined,
+                size: 40,
+                color: Colors.black87,
+              ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    price,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                selectedPrice = priceValue; // Update harga yang dipilih
+              });
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const TransaksiPage()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              buttonText,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: const BoxDecoration(
@@ -127,29 +242,19 @@ class _TicketState extends State<Ticket> {
       child: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.rocket), label: "Ticket"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
+              icon: Icon(Icons.fastfood), label: "Culinary"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.rocket),
-            label: "Ticket",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood),
-            label: "Culinary",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.rate_review),
-            label: "Review",
-          ),
+              icon: Icon(Icons.rate_review), label: "Review"),
         ],
-        backgroundColor:
-            Colors.transparent, // Membuat latar belakang transparan
-        selectedItemColor: Colors.white, // Warna ikon dan teks aktif
-        unselectedItemColor: Colors.white70, // Warna ikon dan teks tidak aktif
-        type: BottomNavigationBarType.fixed, // Ukuran tetap
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey[300],
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

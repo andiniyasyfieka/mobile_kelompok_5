@@ -57,8 +57,7 @@ class SplashScreenState extends State<SplashScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            WisataPage()), 
+                        builder: (context) => WisataPage()), 
                   );
                 },
                 style: ElevatedButton.styleFrom(
